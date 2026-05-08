@@ -18,6 +18,65 @@
     .alert-success { background: var(--success-light); border: 1px solid var(--success); color: var(--success); }
     .alert-error   { background: var(--danger-light); border: 1px solid var(--danger); color: var(--danger); }
     .footer-note   { text-align: center; font-size: 13px; color: var(--text-muted); margin-top: 24px; line-height: 1.6; }
+
+    /* ── Returning user card ── */
+    .welcome-back-card { display: none; }
+    .avatar-ring {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      border: 2px solid var(--primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 700; color: var(--primary);
+      margin: 0 auto 16px;
+    }
+    .welcome-email {
+      text-align: center;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .welcome-sub {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    .switch-link {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 14px;
+    }
+    .switch-link button {
+      background: none;
+      border: none;
+      color: var(--primary);
+      cursor: pointer;
+      font-size: 12px;
+      padding: 0;
+      text-decoration: underline;
+    }
+
+    /* ── First-timer steps ── */
+    .steps {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .step {
+      flex: 1;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 8px 4px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      line-height: 1.4;
+    }
+    .step strong { display: block; color: var(--text); font-size: 12px; margin-bottom: 2px; }
   </style>
 </head>
 <body>
@@ -28,23 +87,50 @@
       <p>12 weeks to CFO-ready financial planning skills</p>
     </div>
 
-    <div class="login-card">
-      <div id="form-wrap">
-        <div id="alert-error" class="alert alert-error"></div>
-        <div class="form-group">
-          <label class="form-label" for="email">Email address</label>
-          <input type="email" id="email" placeholder="you@company.com" autocomplete="email">
-        </div>
-        <button class="btn btn-primary" id="submit-btn" style="width:100%;justify-content:center" onclick="sendMagicLink()">
-          Send magic link
-        </button>
-        <p style="font-size:12px;color:var(--text-muted);margin-top:12px;text-align:center">
-          No password needed — we'll email you a sign-in link.
-        </p>
+    <!-- ── Returning user state ── -->
+    <div class="login-card welcome-back-card" id="returning-card">
+      <div id="alert-error-r" class="alert alert-error"></div>
+      <div class="avatar-ring" id="avatar-letter">A</div>
+      <div class="welcome-email" id="welcome-email-display"></div>
+      <div class="welcome-sub">Welcome back — pick up where you left off.</div>
+      <button class="btn btn-primary" id="submit-btn-r" style="width:100%;justify-content:center" onclick="sendMagicLinkReturning()">
+        Send magic link →
+      </button>
+      <div class="switch-link">
+        Not you? <button onclick="switchToNew()">Use a different email</button>
       </div>
+    </div>
 
-      <div id="alert-success" class="alert alert-success">
-        Check your inbox — we sent a link to <strong id="sent-to"></strong>
+    <!-- ── New user state ── -->
+    <div class="login-card" id="new-card">
+      <div class="steps">
+        <div class="step"><strong>1. Enter email</strong>We send a link</div>
+        <div class="step"><strong>2. Click link</strong>No password</div>
+        <div class="step"><strong>3. Start Week 1</strong>12 weeks ahead</div>
+      </div>
+      <div id="alert-error-n" class="alert alert-error"></div>
+      <div class="form-group">
+        <label class="form-label" for="email">Email address</label>
+        <input type="email" id="email" placeholder="you@company.com" autocomplete="email">
+      </div>
+      <button class="btn btn-primary" id="submit-btn-n" style="width:100%;justify-content:center" onclick="sendMagicLinkNew()">
+        Get started — send magic link
+      </button>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:12px;text-align:center">
+        No password needed — we'll email you a sign-in link.
+      </p>
+    </div>
+
+    <!-- ── Success state (shared) ── -->
+    <div class="login-card" id="success-card" style="display:none;text-align:center;padding:40px 32px">
+      <div style="width:44px;height:44px;border-radius:50%;background:var(--success-light);border:2px solid var(--success);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:20px;color:var(--success)">✓</div>
+      <div style="font-size:16px;font-weight:600;margin-bottom:6px">Check your inbox</div>
+      <div style="font-size:13px;color:var(--text-muted);line-height:1.6">
+        Magic link sent to <strong id="sent-to" style="color:var(--text)"></strong><br>
+        Click the link in the email to sign in.
+      </div>
+      <div style="margin-top:20px;font-size:12px;color:var(--text-muted)">
+        Didn't get it? Check spam, or <button onclick="resetToLogin()" style="background:none;border:none;color:var(--primary);cursor:pointer;font-size:12px;text-decoration:underline;padding:0">try again</button>
       </div>
     </div>
 
@@ -57,31 +143,67 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
   <script>
-    // Redirect if already logged in
+    const LS_KEY = 'learnfpa_email';
+
+    // ── On load: check session + returning user ──
     (async () => {
       const { data: { session } } = await sb.auth.getSession();
-      if (session) window.location.href = 'dashboard.html';
+      if (session) { window.location.href = 'dashboard.html'; return; }
+
+      const saved = localStorage.getItem(LS_KEY);
+      if (saved) {
+        showReturningState(saved);
+      }
     })();
 
-    // Handle magic link callback
     sb.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && session) window.location.href = 'dashboard.html';
     });
 
-    async function sendMagicLink() {
-      const email  = document.getElementById('email').value.trim();
-      const errEl  = document.getElementById('alert-error');
-      const btn    = document.getElementById('submit-btn');
+    // ── UI state helpers ──
+    function showReturningState(email) {
+      document.getElementById('new-card').style.display       = 'none';
+      document.getElementById('returning-card').style.display = 'block';
+      document.getElementById('welcome-email-display').textContent = email;
+      document.getElementById('avatar-letter').textContent = email[0].toUpperCase();
+    }
 
+    function switchToNew() {
+      localStorage.removeItem(LS_KEY);
+      document.getElementById('returning-card').style.display = 'none';
+      document.getElementById('new-card').style.display       = 'block';
+      document.getElementById('email').focus();
+    }
+
+    function resetToLogin() {
+      document.getElementById('success-card').style.display = 'none';
+      const saved = localStorage.getItem(LS_KEY);
+      if (saved) { showReturningState(saved); }
+      else { document.getElementById('new-card').style.display = 'block'; }
+    }
+
+    function showSuccess(email) {
+      document.getElementById('new-card').style.display       = 'none';
+      document.getElementById('returning-card').style.display = 'none';
+      document.getElementById('success-card').style.display   = 'block';
+      document.getElementById('sent-to').textContent = email;
+    }
+
+    // ── Send helpers ──
+    async function doSend(email, btnId, errId) {
+      const btn   = document.getElementById(btnId);
+      const errEl = document.getElementById(errId);
       errEl.style.display = 'none';
-      if (!email) { errEl.textContent = 'Please enter your email.'; errEl.style.display = 'block'; return; }
 
+      if (!email) {
+        errEl.textContent = 'Please enter your email.';
+        errEl.style.display = 'block';
+        return;
+      }
+
+      const origText = btn.textContent;
       btn.textContent = 'Sending...';
       btn.disabled = true;
-
-      const timeout = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Request timed out — check your connection and try again.')), 10000)
-      );
 
       let error;
       try {
@@ -90,26 +212,41 @@
             email,
             options: { emailRedirectTo: window.location.origin + '/dashboard.html' }
           }),
-          timeout
+          new Promise((_, rej) => setTimeout(() => rej(new Error('Request timed out.')), 10000))
         ]);
         error = result.error;
-      } catch (e) {
-        error = e;
-      }
+      } catch (e) { error = e; }
 
       if (error) {
-        errEl.textContent = error.message;
+        const msg = error.message || '';
+        errEl.textContent = msg.includes('rate limit')
+          ? 'Too many requests — please wait a few minutes and try again.'
+          : msg;
         errEl.style.display = 'block';
-        btn.textContent = 'Send magic link';
+        btn.textContent = origText;
         btn.disabled = false;
       } else {
-        document.getElementById('form-wrap').style.display = 'none';
-        document.getElementById('sent-to').textContent = email;
-        document.getElementById('alert-success').style.display = 'block';
+        localStorage.setItem(LS_KEY, email);
+        showSuccess(email);
       }
     }
 
-    document.addEventListener('keydown', e => { if (e.key === 'Enter') sendMagicLink(); });
+    function sendMagicLinkNew() {
+      doSend(document.getElementById('email').value.trim(), 'submit-btn-n', 'alert-error-n');
+    }
+
+    function sendMagicLinkReturning() {
+      doSend(document.getElementById('welcome-email-display').textContent.trim(), 'submit-btn-r', 'alert-error-r');
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      if (document.getElementById('returning-card').style.display !== 'none') {
+        sendMagicLinkReturning();
+      } else {
+        sendMagicLinkNew();
+      }
+    });
   </script>
 </body>
 </html>
