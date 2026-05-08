@@ -885,10 +885,983 @@ window.LESSONS_DATA = [
       }
     ]
   },
-  { week: 7,  title: 'Working Capital & Cash Flow',          desc: 'DSO, DPO, DIO, cash conversion cycle', content: null, quiz: [] },
-  { week: 8,  title: 'Data Viz & Executive Dashboards',      desc: 'Power BI, Excel charts, EBITDA / FCF / ROIC metrics', content: null, quiz: [] },
-  { week: 9,  title: 'Capital Budgeting & DCF',              desc: 'NPV, IRR, payback period, full discounted cash flow model', content: null, quiz: [] },
-  { week: 10, title: 'Scenario Planning & Risk Analysis',    desc: 'Rolling forecasts, sensitivity tables, risk management', content: null, quiz: [] },
-  { week: 11, title: 'Financial Storytelling & Partnering',  desc: 'The "so what" discipline, CFO update format, narrative over numbers', content: null, quiz: [] },
-  { week: 12, title: 'AI in FP&A + Capstone',                desc: 'AI forecasting tools, Copilot in finance, build a full FP&A model', content: null, quiz: [] }
+
+  // ─────────────────────────────────────────
+  // WEEK 7 — Working Capital & Cash Flow
+  // ─────────────────────────────────────────
+  {
+    week: 7,
+    title: 'Working Capital &amp; Cash Flow',
+    desc: 'DSO, DPO, DIO, cash conversion cycle, and why profit ≠ cash',
+    content: `
+      <div style="background:linear-gradient(135deg,rgba(46,204,138,0.08) 0%,var(--bg-secondary) 100%);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:2rem;border-left:4px solid var(--success)">
+        <div style="font-size:13px;font-weight:600;color:var(--success);margin-bottom:4px">Week 7 — Cash is what keeps the company alive</div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.6">A company can be profitable on paper and still run out of cash. Understanding working capital is what separates a good FP&amp;A analyst from a great one — and it's the first thing a CFO checks when cash gets tight.</div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 1 — Why profit does not equal cash</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:10px">
+          <div style="font-size:14px;font-weight:500;margin-bottom:12px">The most dangerous misconception in finance: "We made $50M profit — we must have $50M cash."</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div style="padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm);border-top:3px solid var(--violet)">
+                <div style="font-size:11px;font-weight:600;color:var(--violet);margin-bottom:6px;letter-spacing:.4px">PROFIT (ACCRUAL)</div>
+                <div style="font-size:12px;color:var(--text-muted);line-height:1.5">Recognised when earned, regardless of when cash moves. You invoice a client in December — revenue hits December P&amp;L even if they pay in March.</div>
+              </div>
+              <div style="padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm);border-top:3px solid var(--success)">
+                <div style="font-size:11px;font-weight:600;color:var(--success);margin-bottom:6px;letter-spacing:.4px">CASH</div>
+                <div style="font-size:12px;color:var(--text-muted);line-height:1.5">Only moves when money actually changes hands. The March payment hits your bank in March — not December. Cash is real. Profit is an accounting concept.</div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted);line-height:1.6"><span class="hl">Three things consume cash without touching profit:</span> collecting receivables late (customers owe you), paying suppliers early, and building up inventory. All three are working capital.</div>
+            <div style="padding:10px 14px;background:var(--danger-light);border-radius:var(--radius-sm);font-size:12px;color:var(--danger);border:1px solid var(--danger);line-height:1.6"><span style="font-weight:600">Real risk:</span> A fast-growing company with 60-day payment terms can be generating record profit while running out of cash — because growth itself consumes working capital.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 2 — The three working capital metrics</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px">Three ratios tell you everything about how a company manages cash in its operating cycle.</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="padding:14px;background:var(--bg-secondary);border-radius:var(--radius-sm);border-left:3px solid var(--primary)">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+                <div style="font-size:13px;font-weight:600;color:var(--primary)">DSO — Days Sales Outstanding</div>
+                <div style="font-size:11px;color:var(--text-muted);font-family:monospace">AR ÷ (Revenue / 365)</div>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">How many days it takes to collect cash after invoicing. DSO of 45 means customers pay in 45 days on average. <span class="hl">Lower = better.</span> High DSO ties up cash in receivables.</div>
+            </div>
+            <div style="padding:14px;background:var(--bg-secondary);border-radius:var(--radius-sm);border-left:3px solid var(--success)">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+                <div style="font-size:13px;font-weight:600;color:var(--success)">DPO — Days Payable Outstanding</div>
+                <div style="font-size:11px;color:var(--text-muted);font-family:monospace">AP ÷ (COGS / 365)</div>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">How long you take to pay your suppliers. DPO of 30 means you pay in 30 days. <span class="hl">Higher = better for cash</span> (you keep the money longer). But push too hard and you damage supplier relationships.</div>
+            </div>
+            <div style="padding:14px;background:var(--bg-secondary);border-radius:var(--radius-sm);border-left:3px solid var(--warning)">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+                <div style="font-size:13px;font-weight:600;color:var(--warning)">DIO — Days Inventory Outstanding</div>
+                <div style="font-size:11px;color:var(--text-muted);font-family:monospace">Inventory ÷ (COGS / 365)</div>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">How long inventory sits before it's sold. Relevant for manufacturers, retailers, product companies. Service companies (like drilling) have minimal inventory — their version is equipment utilisation.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 3 — The Cash Conversion Cycle</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:14px;font-weight:500;margin-bottom:4px">CCC = DSO + DIO − DPO</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px">The number of days between paying for inputs and receiving cash from customers. Lower (even negative) is better.</div>
+          <div style="background:var(--bg-secondary);border-radius:var(--radius-sm);padding:14px;margin-bottom:12px">
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center">
+              <div style="padding:10px;background:var(--bg);border-radius:var(--radius-sm)"><div style="font-size:20px;font-weight:700;color:var(--primary)">45</div><div style="font-size:10px;color:var(--text-muted)">DSO (days)</div></div>
+              <div style="padding:10px;background:var(--bg);border-radius:var(--radius-sm)"><div style="font-size:20px;font-weight:700;color:var(--warning)">12</div><div style="font-size:10px;color:var(--text-muted)">DIO (days)</div></div>
+              <div style="padding:10px;background:var(--bg);border-radius:var(--radius-sm)"><div style="font-size:20px;font-weight:700;color:var(--success)">30</div><div style="font-size:10px;color:var(--text-muted)">DPO (days)</div></div>
+              <div style="padding:10px;background:var(--primary-light);border-radius:var(--radius-sm);border:1px solid var(--primary)"><div style="font-size:20px;font-weight:700;color:var(--primary)">27</div><div style="font-size:10px;color:var(--primary)">CCC (days)</div></div>
+            </div>
+            <div style="font-size:11px;color:var(--text-muted);text-align:center;margin-top:8px">45 + 12 − 30 = 27 days. The company needs 27 days of working capital financing.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="padding:8px 12px;background:var(--bg-secondary);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted)"><span class="hl">Amazon CCC: approximately −30 days.</span> Customers pay before Amazon pays suppliers. The business self-funds its growth — and then some.</div>
+            <div style="padding:8px 12px;background:var(--bg-secondary);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted)"><span class="hl">Construction/drilling: often 60–90 days.</span> Long projects, milestone billing, slow-paying national oil companies. Working capital management is a critical CFO skill in this sector.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 4 — Real world: offshore driller cash management</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:14px;font-weight:500;margin-bottom:2px">Q3 cash flow review — FP&amp;A presents to CFO</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px">Net income was $42M. But operating cash flow was only $18M. The CFO asks why.</div>
+          <div class="scenario-row"><div style="font-size:12px;font-weight:500;color:var(--primary);padding-top:1px">Finding 1</div><div style="font-size:13px;color:var(--text-muted);padding-left:12px;border-left:1px solid var(--border);line-height:1.6">AR increased by $14M. Petronas delayed two milestone payments to Q4 — contractual but unexpected. <span class="hl">DSO rose from 42 to 61 days.</span></div></div>
+          <div class="scenario-row"><div style="font-size:12px;font-weight:500;color:var(--warning);padding-top:1px">Finding 2</div><div style="font-size:13px;color:var(--text-muted);padding-left:12px;border-left:1px solid var(--border);line-height:1.6">Spare parts inventory built up by $8M ahead of planned maintenance season. <span class="hl">DIO increased by 9 days.</span> Deliberate decision — but it consumed cash.</div></div>
+          <div class="scenario-row"><div style="font-size:12px;font-weight:500;color:var(--success);padding-top:1px">Action</div><div style="font-size:13px;color:var(--text-muted);padding-left:12px;border-left:1px solid var(--border);line-height:1.6">FP&amp;A negotiated accelerated payment on one Petronas invoice ($9M), recovering cash within 3 weeks. DPO extended by 15 days on non-critical suppliers. Net result: Q4 cash position restored.</div></div>
+          <div style="margin-top:12px;padding:10px 14px;background:var(--success-light);border-radius:var(--radius-sm);font-size:12px;color:var(--success);line-height:1.6;border:1px solid var(--success)">
+            The CFO didn't need to worry about working capital because FP&amp;A understood it, tracked it, and fixed it before it became a crisis. That is the value of this week's skills.
+          </div>
+        </div>
+      </div>`,
+    quiz: [
+      {
+        question: 'A company has AR of $73M and annual revenue of $365M. What is its DSO?',
+        options: [
+          '5 days',
+          '50 days',
+          '73 days',
+          '20 days'
+        ],
+        correct: 2
+      },
+      {
+        question: 'Net income is $60M but operating cash flow is $35M. Which working capital change best explains the gap?',
+        options: [
+          'Accounts payable increased by $25M — the company is paying suppliers faster',
+          'Accounts receivable increased by $25M — customers are paying more slowly',
+          'Inventory decreased by $25M — the company sold down its stock',
+          'Depreciation increased by $25M — a non-cash charge reduced profit'
+        ],
+        correct: 1
+      },
+      {
+        question: 'DSO = 50, DIO = 10, DPO = 40. What is the Cash Conversion Cycle?',
+        options: [
+          '100 days',
+          '20 days',
+          '60 days',
+          '80 days'
+        ],
+        correct: 1
+      }
+    ]
+  },
+
+  // ─────────────────────────────────────────
+  // WEEK 8 — Capital Budgeting & DCF
+  // ─────────────────────────────────────────
+  {
+    week: 8,
+    title: 'Capital Budgeting &amp; DCF',
+    desc: 'NPV, IRR, payback period — how CFOs decide where to invest capital',
+    content: `
+      <div style="background:linear-gradient(135deg,rgba(155,127,232,0.08) 0%,var(--bg-secondary) 100%);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:2rem;border-left:4px solid var(--violet)">
+        <div style="font-size:13px;font-weight:600;color:var(--violet);margin-bottom:4px">Week 8 — Where capital allocation meets strategy</div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.6">Every major investment decision — a new rig, a factory, an acquisition — goes through capital budgeting. The CFO's role is to ensure the company only commits capital to projects that create value. This is where FP&amp;A sits closest to the board.</div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 1 — The investment decision framework</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:14px;font-weight:500;margin-bottom:12px">Three questions every capital request must answer before getting approved.</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+            <div style="display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="background:var(--primary);color:#0A0A12;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px">1</div>
+              <div><div style="font-size:13px;font-weight:500;margin-bottom:3px">Does it create value?</div><div style="font-size:12px;color:var(--text-muted);line-height:1.5">The investment must return more than the cost of the capital used to fund it. If you borrow at 8%, the project must return more than 8%.</div></div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="background:var(--violet);color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px">2</div>
+              <div><div style="font-size:13px;font-weight:500;margin-bottom:3px">How quickly does it pay back?</div><div style="font-size:12px;color:var(--text-muted);line-height:1.5">Payback period tells you how long before you recover the initial investment. Boards want certainty — a 2-year payback is far less risky than a 10-year one.</div></div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:12px;padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="background:var(--success);color:#0A0A12;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px">3</div>
+              <div><div style="font-size:13px;font-weight:500;margin-bottom:3px">What is the return rate?</div><div style="font-size:12px;color:var(--text-muted);line-height:1.5">The IRR tells you the annualised percentage return. Compare it to your hurdle rate (minimum acceptable return). If IRR &gt; hurdle rate, invest.</div></div>
+            </div>
+          </div>
+          <div style="padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted);line-height:1.6">
+            Your cost of capital (WACC) is the benchmark. Every project must clear it. A company with 10% WACC should reject projects returning 8% — even if profitable in absolute terms.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 2 — Payback period and NPV</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div>
+              <div style="font-size:13px;font-weight:600;margin-bottom:8px">Payback Period — the simplest test</div>
+              <div style="background:var(--bg-secondary);border-radius:var(--radius-sm);padding:12px;font-size:12px;color:var(--text-muted);line-height:1.6">
+                Initial investment: $20M. Annual cash inflow: $5M.<br>
+                <span class="hl">Payback = $20M ÷ $5M = 4 years.</span><br><br>
+                Simple. Intuitive. But flawed — it ignores time value of money and all cash flows after payback. Use it as a quick screen, not a final decision.
+              </div>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:600;margin-bottom:8px">Net Present Value (NPV) — the gold standard</div>
+              <div style="background:var(--bg-secondary);border-radius:var(--radius-sm);padding:12px;margin-bottom:8px">
+                <div style="font-size:12px;color:var(--text-muted);line-height:1.6;margin-bottom:10px">NPV discounts all future cash flows back to today's value using the cost of capital (discount rate), then subtracts the initial investment.</div>
+                <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center;margin-bottom:8px">
+                  <div style="padding:8px 4px;background:var(--bg);border-radius:var(--radius-sm)"><div style="font-size:10px;color:var(--text-muted)">Year 0</div><div style="font-size:13px;font-weight:600;color:var(--danger)">−$20M</div></div>
+                  <div style="padding:8px 4px;background:var(--bg);border-radius:var(--radius-sm)"><div style="font-size:10px;color:var(--text-muted)">Year 1</div><div style="font-size:13px;font-weight:600;color:var(--success)">$6M</div></div>
+                  <div style="padding:8px 4px;background:var(--bg);border-radius:var(--radius-sm)"><div style="font-size:10px;color:var(--text-muted)">Year 2</div><div style="font-size:13px;font-weight:600;color:var(--success)">$7M</div></div>
+                  <div style="padding:8px 4px;background:var(--bg);border-radius:var(--radius-sm)"><div style="font-size:10px;color:var(--text-muted)">Year 3</div><div style="font-size:13px;font-weight:600;color:var(--success)">$8M</div></div>
+                  <div style="padding:8px 4px;background:var(--bg);border-radius:var(--radius-sm)"><div style="font-size:10px;color:var(--text-muted)">Year 4</div><div style="font-size:13px;font-weight:600;color:var(--success)">$8M</div></div>
+                </div>
+                <div style="font-size:12px;color:var(--text-muted)">Discount rate: 10%. NPV = −$20M + PV(6) + PV(7) + PV(8) + PV(8) = <span class="hl">+$2.4M</span></div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div style="padding:10px;background:var(--success-light);border-radius:var(--radius-sm);border:1px solid var(--success);font-size:12px;color:var(--success)"><span style="font-weight:600">NPV &gt; 0</span> — invest. The project creates more value than it costs.</div>
+                <div style="padding:10px;background:var(--danger-light);border-radius:var(--radius-sm);border:1px solid var(--danger);font-size:12px;color:var(--danger)"><span style="font-weight:600">NPV &lt; 0</span> — reject. The project destroys value even if cash flows are positive.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 3 — IRR: the return rate</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px">IRR is the discount rate at which NPV = 0. It's the project's annualised return. Compare it to your hurdle rate.</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+            <div style="display:grid;grid-template-columns:120px 1fr;gap:12px;padding:10px;background:var(--bg-secondary);border-radius:var(--radius-sm);align-items:center">
+              <div style="text-align:center"><div style="font-size:22px;font-weight:700;color:var(--success)">18%</div><div style="font-size:10px;color:var(--text-muted)">Project IRR</div></div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.5">Hurdle rate is 10%. IRR of 18% clears the bar by 8 percentage points. Strong approval case. Board will want to know the sensitivity — what if costs overrun 20%?</div>
+            </div>
+            <div style="display:grid;grid-template-columns:120px 1fr;gap:12px;padding:10px;background:var(--bg-secondary);border-radius:var(--radius-sm);align-items:center">
+              <div style="text-align:center"><div style="font-size:22px;font-weight:700;color:var(--danger)">8%</div><div style="font-size:10px;color:var(--text-muted)">Project IRR</div></div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.5">Hurdle rate is 10%. IRR of 8% fails. Reject — unless there are strategic reasons that override the financial return (market entry, long-term relationships).</div>
+            </div>
+          </div>
+          <div style="padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted);line-height:1.6">
+            <span class="hl">WACC = Weighted Average Cost of Capital.</span> It blends the cost of debt (interest) and equity (shareholder return expectation) based on the capital structure. Typical WACC for an energy company: 9–12%. This is your minimum hurdle rate.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 4 — Real world: $40M rig acquisition decision</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:14px;font-weight:500;margin-bottom:2px">Board request: should we acquire a 4th drilling rig?</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px">FP&amp;A builds the investment case using all three methods.</div>
+          <div style="background:var(--bg-secondary);border-radius:var(--radius-sm);padding:12px;margin-bottom:10px">
+            <div style="font-size:12px;font-weight:500;margin-bottom:8px">Assumptions: Cost $40M · Day rate $90K · 330 operating days · Opex $45M/yr · Life 10 years · WACC 10%</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+              <div style="text-align:center;padding:10px;background:var(--bg);border-radius:var(--radius-sm)"><div style="font-size:20px;font-weight:700;color:var(--warning)">3.1 yrs</div><div style="font-size:11px;color:var(--text-muted)">Payback period</div></div>
+              <div style="text-align:center;padding:10px;background:var(--bg);border-radius:var(--radius-sm)"><div style="font-size:20px;font-weight:700;color:var(--success)">+$18M</div><div style="font-size:11px;color:var(--text-muted)">NPV at 10% WACC</div></div>
+              <div style="text-align:center;padding:10px;background:var(--bg);border-radius:var(--radius-sm)"><div style="font-size:20px;font-weight:700;color:var(--primary)">22%</div><div style="font-size:11px;color:var(--text-muted)">IRR</div></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="padding:8px 12px;background:var(--bg-secondary);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted)">All three tests pass. FP&amp;A recommends approval — subject to securing a 3-year contract before committing capital (removes demand risk).</div>
+            <div style="padding:8px 12px;background:var(--primary-light);border-radius:var(--radius-sm);font-size:12px;color:var(--primary)">Sensitivity check: if utilisation drops to 280 days (15% downside), NPV falls to +$4M — still positive. IRR falls to 12%, still above WACC. The investment is robust.</div>
+          </div>
+        </div>
+      </div>`,
+    quiz: [
+      {
+        question: 'A project costs $30M upfront and generates $10M/year for 4 years. What is the payback period?',
+        options: [
+          '2 years',
+          '3 years',
+          '4 years',
+          '7.5 years'
+        ],
+        correct: 1
+      },
+      {
+        question: "A project's IRR is 14%. The company's WACC is 11%. What should FP&A recommend?",
+        options: [
+          'Reject — IRR should exceed WACC by at least 10 percentage points',
+          'Reject — IRR of 14% is too low for any meaningful project',
+          'Approve — IRR exceeds the cost of capital, so the project creates value',
+          'It depends on the payback period only'
+        ],
+        correct: 2
+      },
+      {
+        question: 'NPV of a project is −$2M at a 12% discount rate. What does this tell you?',
+        options: [
+          'The project generates negative cash flows throughout its life',
+          'At a 12% cost of capital, the project destroys value — future cash flows are worth less than the investment',
+          'The IRR is exactly 12%',
+          'The payback period exceeds the project life'
+        ],
+        correct: 1
+      }
+    ]
+  },
+
+  // ─────────────────────────────────────────
+  // WEEK 9 — Scenario Planning & Sensitivity
+  // ─────────────────────────────────────────
+  {
+    week: 9,
+    title: 'Scenario Planning &amp; Sensitivity Analysis',
+    desc: 'Base/bull/bear cases, sensitivity tables, rolling forecasts',
+    content: `
+      <div style="background:linear-gradient(135deg,rgba(245,166,35,0.08) 0%,var(--bg-secondary) 100%);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:2rem;border-left:4px solid var(--warning)">
+        <div style="font-size:13px;font-weight:600;color:var(--warning);margin-bottom:4px">Week 9 — Planning for the world as it might be</div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.6">One forecast is always wrong. The question is: wrong by how much, and in which direction? Scenario planning turns uncertainty from a risk into a structured conversation — and it's what separates reactive finance teams from ones that lead the business.</div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 1 — Why one forecast is never enough</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:14px;font-weight:500;margin-bottom:12px">A single-point forecast is a false promise. It implies certainty that doesn't exist.</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+            <div style="padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted);line-height:1.6">
+              <span class="hl">The problem with one number:</span> It anchors everyone to a single outcome. When reality diverges (it always does), the team spends weeks explaining why the forecast was wrong instead of acting on what's actually happening.
+            </div>
+            <div style="padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted);line-height:1.6">
+              <span class="hl">What scenarios do instead:</span> They pre-answer the question "what if?" before it's asked. The CFO walks into a board meeting knowing: if oil drops to $70, here's the plan. If demand spikes, here's how we respond.
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+            <div style="padding:12px;background:var(--danger-light);border-radius:var(--radius-sm);border:1px solid var(--danger);text-align:center">
+              <div style="font-size:11px;font-weight:600;color:var(--danger);margin-bottom:4px">BEAR CASE</div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.5">Downside scenario. What if key assumptions deteriorate? Used for stress-testing and liquidity planning.</div>
+            </div>
+            <div style="padding:12px;background:var(--primary-light);border-radius:var(--radius-sm);border:1px solid var(--primary);text-align:center">
+              <div style="font-size:11px;font-weight:600;color:var(--primary);margin-bottom:4px">BASE CASE</div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.5">Most likely outcome. The number you commit to. Built on your best current assumptions.</div>
+            </div>
+            <div style="padding:12px;background:var(--success-light);border-radius:var(--radius-sm);border:1px solid var(--success);text-align:center">
+              <div style="font-size:11px;font-weight:600;color:var(--success);margin-bottom:4px">BULL CASE</div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.5">Upside scenario. What if conditions improve faster than expected? Used for capacity and hiring planning.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 2 — Building the three scenarios</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px">Each scenario changes the key assumptions — not just the outputs. Change the inputs, let the model generate the outputs.</div>
+          <div style="overflow-x:auto">
+            <table style="width:100%;border-collapse:collapse;font-size:12px">
+              <thead>
+                <tr style="background:var(--bg-secondary)">
+                  <th style="padding:8px 12px;text-align:left;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)">Assumption</th>
+                  <th style="padding:8px 12px;text-align:center;color:var(--danger);font-weight:600;border-bottom:1px solid var(--border)">Bear</th>
+                  <th style="padding:8px 12px;text-align:center;color:var(--primary);font-weight:600;border-bottom:1px solid var(--border)">Base</th>
+                  <th style="padding:8px 12px;text-align:center;color:var(--success);font-weight:600;border-bottom:1px solid var(--border)">Bull</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border)">
+                  <td style="padding:8px 12px;color:var(--text-muted)">Oil price ($/bbl)</td>
+                  <td style="padding:8px 12px;text-align:center;color:var(--danger)">$65</td>
+                  <td style="padding:8px 12px;text-align:center;color:var(--primary)">$80</td>
+                  <td style="padding:8px 12px;text-align:center;color:var(--success)">$95</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);background:rgba(255,255,255,0.02)">
+                  <td style="padding:8px 12px;color:var(--text-muted)">Rig utilisation</td>
+                  <td style="padding:8px 12px;text-align:center;color:var(--danger)">78%</td>
+                  <td style="padding:8px 12px;text-align:center;color:var(--primary)">88%</td>
+                  <td style="padding:8px 12px;text-align:center;color:var(--success)">95%</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border)">
+                  <td style="padding:8px 12px;color:var(--text-muted)">Day rate ($/day)</td>
+                  <td style="padding:8px 12px;text-align:center;color:var(--danger)">$75K</td>
+                  <td style="padding:8px 12px;text-align:center;color:var(--primary)">$85K</td>
+                  <td style="padding:8px 12px;text-align:center;color:var(--success)">$100K</td>
+                </tr>
+                <tr style="background:var(--bg-secondary)">
+                  <td style="padding:8px 12px;color:var(--text);font-weight:600">Implied Revenue</td>
+                  <td style="padding:8px 12px;text-align:center;color:var(--danger);font-weight:600">$215M</td>
+                  <td style="padding:8px 12px;text-align:center;color:var(--primary);font-weight:600">$280M</td>
+                  <td style="padding:8px 12px;text-align:center;color:var(--success);font-weight:600">$350M</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="margin-top:10px;padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted);line-height:1.6">
+            The range ($215M–$350M) tells the CFO the planning boundaries. Capital spending, hiring, debt covenants — everything gets stress-tested against the bear case.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 3 — Sensitivity tables and rolling forecasts</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div>
+              <div style="font-size:13px;font-weight:600;margin-bottom:8px">Sensitivity table — two-variable analysis</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;line-height:1.5">Shows EBITDA across combinations of two key variables. A 5×5 grid reveals the full outcome space in one view.</div>
+              <div style="overflow-x:auto">
+                <table style="width:100%;border-collapse:collapse;font-size:11px;text-align:center">
+                  <thead>
+                    <tr>
+                      <th style="padding:6px;background:var(--bg-secondary);color:var(--text-muted);border:1px solid var(--border)">Rate / Util</th>
+                      <th style="padding:6px;background:var(--bg-secondary);color:var(--text-muted);border:1px solid var(--border)">75%</th>
+                      <th style="padding:6px;background:var(--bg-secondary);color:var(--text-muted);border:1px solid var(--border)">82%</th>
+                      <th style="padding:6px;background:var(--primary-light);color:var(--primary);border:1px solid var(--border);font-weight:600">88%</th>
+                      <th style="padding:6px;background:var(--bg-secondary);color:var(--text-muted);border:1px solid var(--border)">92%</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td style="padding:6px;background:var(--bg-secondary);color:var(--text-muted);border:1px solid var(--border);font-weight:500">$75K</td><td style="padding:6px;border:1px solid var(--border);color:var(--danger)">$42M</td><td style="padding:6px;border:1px solid var(--border);color:var(--danger)">$51M</td><td style="padding:6px;border:1px solid var(--border);color:var(--text-muted)">$58M</td><td style="padding:6px;border:1px solid var(--border);color:var(--text-muted)">$63M</td></tr>
+                    <tr><td style="padding:6px;background:var(--bg-secondary);color:var(--text-muted);border:1px solid var(--border);font-weight:500">$85K</td><td style="padding:6px;border:1px solid var(--border);color:var(--text-muted)">$58M</td><td style="padding:6px;border:1px solid var(--border);color:var(--text-muted)">$68M</td><td style="padding:6px;background:var(--primary-light);border:1px solid var(--primary);color:var(--primary);font-weight:600">$76M</td><td style="padding:6px;border:1px solid var(--border);color:var(--success)">$82M</td></tr>
+                    <tr><td style="padding:6px;background:var(--bg-secondary);color:var(--text-muted);border:1px solid var(--border);font-weight:500">$95K</td><td style="padding:6px;border:1px solid var(--border);color:var(--text-muted)">$70M</td><td style="padding:6px;border:1px solid var(--border);color:var(--success)">$82M</td><td style="padding:6px;border:1px solid var(--border);color:var(--success)">$91M</td><td style="padding:6px;border:1px solid var(--border);color:var(--success)">$98M</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div style="font-size:11px;color:var(--text-muted);margin-top:6px">Base case highlighted ($85K day rate, 88% utilisation = $76M EBITDA). Board sees the full risk range at a glance.</div>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:600;margin-bottom:6px">Rolling forecast — replacing the static budget</div>
+              <div style="padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted);line-height:1.6">A rolling 12-month forecast always looks 12 months ahead — as each month passes, a new month is added. No more comparing June actuals to a January budget that's already 6 months stale. Best practice at high-performing FP&amp;A teams.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 4 — Real world: oil price shock scenario response</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:14px;font-weight:500;margin-bottom:2px">October: oil drops from $85 to $68 in three weeks</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px">CFO calls FP&amp;A at 7am. "What does this mean for us?" The team that built scenarios can answer in hours, not days.</div>
+          <div class="scenario-row"><div style="font-size:12px;font-weight:500;color:var(--danger);padding-top:1px">Hour 1</div><div style="font-size:13px;color:var(--text-muted);padding-left:12px;border-left:1px solid var(--border);line-height:1.6">Pull the bear case scenario (built in planning season). $68 oil is below bear case assumption of $70. Activate the contingency plan.</div></div>
+          <div class="scenario-row"><div style="font-size:12px;font-weight:500;color:var(--warning);padding-top:1px">Hour 3</div><div style="font-size:13px;color:var(--text-muted);padding-left:12px;border-left:1px solid var(--border);line-height:1.6">Run sensitivity: at $68 oil, clients defer 15–20% of discretionary drilling. Model impact on utilisation. Revised full-year EBITDA: $58M vs $76M base.</div></div>
+          <div class="scenario-row"><div style="font-size:12px;font-weight:500;color:var(--primary);padding-top:1px">Hour 5</div><div style="font-size:13px;color:var(--text-muted);padding-left:12px;border-left:1px solid var(--border);line-height:1.6">Present options: (1) defer $12M capex, (2) reduce discretionary OPEX by $8M, (3) draw $15M from revolving credit facility. Modelled impact of each.</div></div>
+          <div style="margin-top:12px;padding:10px 14px;background:var(--primary-light);border-radius:var(--radius-sm);font-size:12px;color:var(--primary);line-height:1.6">
+            The CFO had a decision framework ready by noon because FP&amp;A had built the scenarios in advance. This is what "adding value" actually looks like.
+          </div>
+        </div>
+      </div>`,
+    quiz: [
+      {
+        question: 'What is the primary purpose of building bear/base/bull scenarios?',
+        options: [
+          'To show the board three different revenue numbers and let them pick one',
+          'To pre-answer "what if?" questions and prepare response plans before uncertainty materialises',
+          'To replace the annual budget with a more accurate forecast',
+          'To satisfy audit requirements for forward-looking disclosures'
+        ],
+        correct: 1
+      },
+      {
+        question: 'A rolling 12-month forecast differs from a static annual budget because:',
+        options: [
+          'It is updated only once per quarter instead of monthly',
+          'It always looks 12 months ahead, adding a new month as each passes — keeping the horizon constant',
+          'It replaces actuals with projections across the full year',
+          'It is built bottom-up by business units rather than top-down'
+        ],
+        correct: 1
+      },
+      {
+        question: 'In a sensitivity table, Day Rate = $85K and Utilisation = 88% gives EBITDA of $76M (base case). Day Rate drops to $75K but Utilisation rises to 92%. Based on the table shown in this lesson, what is the EBITDA outcome?',
+        options: [
+          '$76M — the changes cancel out exactly',
+          '$82M — higher utilisation more than offsets the rate drop',
+          '$63M — lower rate dominates',
+          '$70M — midpoint between the two changes'
+        ],
+        correct: 1
+      }
+    ]
+  },
+
+  // ─────────────────────────────────────────
+  // WEEK 10 — KPIs, Dashboards & Management Reporting
+  // ─────────────────────────────────────────
+  {
+    week: 10,
+    title: 'KPIs, Dashboards &amp; Management Reporting',
+    desc: 'The metrics CFOs track daily, building one-page dashboards, data visualisation',
+    content: `
+      <div style="background:linear-gradient(135deg,rgba(75,158,255,0.08) 0%,var(--bg-secondary) 100%);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:2rem;border-left:4px solid var(--primary)">
+        <div style="font-size:13px;font-weight:600;color:var(--primary);margin-bottom:4px">Week 10 — Numbers that drive decisions</div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.6">Data without structure is noise. A great CFO dashboard turns a hundred data points into five decisions. This week is about designing the reporting layer that turns your financial work into business action.</div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 1 — The CFO metrics hierarchy</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px">Not all metrics are equal. CFOs organise them in three tiers — each serving a different audience and decision frequency.</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="padding:14px;background:var(--bg-secondary);border-radius:var(--radius-sm);border-left:4px solid var(--primary)">
+              <div style="font-size:12px;font-weight:600;color:var(--primary);margin-bottom:6px;letter-spacing:.4px">TIER 1 — BOARD METRICS (quarterly)</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <span style="padding:3px 8px;background:var(--primary-light);color:var(--primary);border-radius:12px;font-size:11px">Revenue growth %</span>
+                <span style="padding:3px 8px;background:var(--primary-light);color:var(--primary);border-radius:12px;font-size:11px">EBITDA margin</span>
+                <span style="padding:3px 8px;background:var(--primary-light);color:var(--primary);border-radius:12px;font-size:11px">Free Cash Flow</span>
+                <span style="padding:3px 8px;background:var(--primary-light);color:var(--primary);border-radius:12px;font-size:11px">ROIC</span>
+                <span style="padding:3px 8px;background:var(--primary-light);color:var(--primary);border-radius:12px;font-size:11px">Net Debt / EBITDA</span>
+              </div>
+            </div>
+            <div style="padding:14px;background:var(--bg-secondary);border-radius:var(--radius-sm);border-left:4px solid var(--violet)">
+              <div style="font-size:12px;font-weight:600;color:var(--violet);margin-bottom:6px;letter-spacing:.4px">TIER 2 — CFO/EXEC METRICS (monthly)</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <span style="padding:3px 8px;background:var(--violet-light);color:var(--violet);border-radius:12px;font-size:11px">BVA summary</span>
+                <span style="padding:3px 8px;background:var(--violet-light);color:var(--violet);border-radius:12px;font-size:11px">Working capital days</span>
+                <span style="padding:3px 8px;background:var(--violet-light);color:var(--violet);border-radius:12px;font-size:11px">Headcount vs plan</span>
+                <span style="padding:3px 8px;background:var(--violet-light);color:var(--violet);border-radius:12px;font-size:11px">Capex vs budget</span>
+                <span style="padding:3px 8px;background:var(--violet-light);color:var(--violet);border-radius:12px;font-size:11px">Updated FY forecast</span>
+              </div>
+            </div>
+            <div style="padding:14px;background:var(--bg-secondary);border-radius:var(--radius-sm);border-left:4px solid var(--warning)">
+              <div style="font-size:12px;font-weight:600;color:var(--warning);margin-bottom:6px;letter-spacing:.4px">TIER 3 — OPERATIONAL METRICS (weekly/daily)</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <span style="padding:3px 8px;background:var(--warning-light);color:var(--warning);border-radius:12px;font-size:11px">Rig utilisation rate</span>
+                <span style="padding:3px 8px;background:var(--warning-light);color:var(--warning);border-radius:12px;font-size:11px">Daily cash position</span>
+                <span style="padding:3px 8px;background:var(--warning-light);color:var(--warning);border-radius:12px;font-size:11px">Invoice aging</span>
+                <span style="padding:3px 8px;background:var(--warning-light);color:var(--warning);border-radius:12px;font-size:11px">OPEX run rate</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 2 — The three metrics every CFO lives by</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="padding:14px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+                <div style="font-size:13px;font-weight:600;color:var(--primary)">EBITDA Margin</div>
+                <div style="font-size:11px;color:var(--text-muted);font-family:monospace">EBITDA ÷ Revenue</div>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">The operating profitability of the core business before financing and accounting decisions. CFOs compare it to peers and prior periods. A drilling company should target 30–40% EBITDA margin. Below 25% triggers questions about cost structure.</div>
+            </div>
+            <div style="padding:14px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+                <div style="font-size:13px;font-weight:600;color:var(--success)">Free Cash Flow (FCF)</div>
+                <div style="font-size:11px;color:var(--text-muted);font-family:monospace">Operating CF − Capex</div>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">The actual cash the business generates after maintaining and growing its asset base. This is what funds dividends, debt repayment, and acquisitions. Boards care about FCF more than EPS. "Is FCF growing?" is the most common CFO question.</div>
+            </div>
+            <div style="padding:14px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+                <div style="font-size:13px;font-weight:600;color:var(--violet)">ROIC — Return on Invested Capital</div>
+                <div style="font-size:11px;color:var(--text-muted);font-family:monospace">NOPAT ÷ Invested Capital</div>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.6">How efficiently the company uses its capital to generate profit. ROIC &gt; WACC = value creation. ROIC &lt; WACC = value destruction (even with positive profit). The ultimate test of capital allocation quality — and the CFO's scorecard with the board.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 3 — Building a one-page dashboard</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px">The one-page rule: if it doesn't fit on one page, it isn't a dashboard — it's a report. Here are the five principles.</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start;padding:10px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="font-size:18px;font-weight:700;color:var(--primary);text-align:center">1</div>
+              <div><div style="font-size:12px;font-weight:500;margin-bottom:2px">Lead with the answer</div><div style="font-size:12px;color:var(--text-muted)">Top of the page: RAG status (Red/Amber/Green) for each key metric. The CFO knows in 5 seconds if something needs attention.</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start;padding:10px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="font-size:18px;font-weight:700;color:var(--violet);text-align:center">2</div>
+              <div><div style="font-size:12px;font-weight:500;margin-bottom:2px">Trend beats snapshot</div><div style="font-size:12px;color:var(--text-muted)">Show 13 months of data, not just this month. A number only means something compared to where it came from.</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start;padding:10px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="font-size:18px;font-weight:700;color:var(--success);text-align:center">3</div>
+              <div><div style="font-size:12px;font-weight:500;margin-bottom:2px">Limit to 8 metrics</div><div style="font-size:12px;color:var(--text-muted)">More than 8 KPIs and nothing is a KPI. Force-rank and cut. The discipline of choosing 8 forces the real strategic conversation.</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start;padding:10px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="font-size:18px;font-weight:700;color:var(--warning);text-align:center">4</div>
+              <div><div style="font-size:12px;font-weight:500;margin-bottom:2px">Compare to the right benchmark</div><div style="font-size:12px;color:var(--text-muted)">Always show: actual vs budget, actual vs prior year, actual vs forecast. Three columns. Each tells a different story.</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start;padding:10px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="font-size:18px;font-weight:700;color:var(--danger);text-align:center">5</div>
+              <div><div style="font-size:12px;font-weight:500;margin-bottom:2px">Design for the reader, not the builder</div><div style="font-size:12px;color:var(--text-muted)">The CFO reads it in 3 minutes. Every font size, colour, and column is a design decision. Remove anything that doesn't help the reader decide.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 4 — Real world: offshore driller monthly pack</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:14px;font-weight:500;margin-bottom:2px">The 6-metric monthly flash the CFO reads first</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px">Before the full BVA pack, the CFO gets a single-screen flash. These six numbers tell the whole story.</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
+            <div style="padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm);text-align:center">
+              <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">EBITDA Margin</div>
+              <div style="font-size:22px;font-weight:700;color:var(--success)">34%</div>
+              <div style="font-size:10px;color:var(--success)">vs 31% budget</div>
+            </div>
+            <div style="padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm);text-align:center">
+              <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">Free Cash Flow</div>
+              <div style="font-size:22px;font-weight:700;color:var(--danger)">$8M</div>
+              <div style="font-size:10px;color:var(--danger)">vs $14M budget</div>
+            </div>
+            <div style="padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm);text-align:center">
+              <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">Rig Utilisation</div>
+              <div style="font-size:22px;font-weight:700;color:var(--warning)">84%</div>
+              <div style="font-size:10px;color:var(--warning)">vs 88% budget</div>
+            </div>
+            <div style="padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm);text-align:center">
+              <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">DSO</div>
+              <div style="font-size:22px;font-weight:700;color:var(--danger)">58 days</div>
+              <div style="font-size:10px;color:var(--danger)">vs 45 target</div>
+            </div>
+            <div style="padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm);text-align:center">
+              <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">Net Debt/EBITDA</div>
+              <div style="font-size:22px;font-weight:700;color:var(--success)">1.8×</div>
+              <div style="font-size:10px;color:var(--success)">vs 2.0× covenant</div>
+            </div>
+            <div style="padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm);text-align:center">
+              <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">FY Forecast</div>
+              <div style="font-size:22px;font-weight:700;color:var(--warning)">$268M</div>
+              <div style="font-size:10px;color:var(--warning)">vs $280M budget</div>
+            </div>
+          </div>
+          <div style="padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted);line-height:1.6">
+            The CFO immediately sees: margins are fine, cash is behind (investigate FCF miss and DSO), utilisation soft, debt within covenant. Six numbers, thirty seconds, clear agenda for the management meeting.
+          </div>
+        </div>
+      </div>`,
+    quiz: [
+      {
+        question: 'ROIC is 8% and WACC is 11%. What does this tell you?',
+        options: [
+          'The company is profitable and creating value for shareholders',
+          'The company is destroying value — it earns less on capital than the capital costs',
+          'The company should increase its debt to raise ROIC',
+          'ROIC below WACC only matters if the company has negative free cash flow'
+        ],
+        correct: 1
+      },
+      {
+        question: 'A CFO dashboard shows FCF of $8M vs a $14M budget. EBITDA margin is above budget. What is the most likely explanation?',
+        options: [
+          'Revenue was above budget, which is always good',
+          'Capex overspend or working capital deterioration consumed cash despite strong operating profit',
+          'The budget was set too high and should be revised downward',
+          'D&A increased, reducing reported profit without affecting cash'
+        ],
+        correct: 1
+      },
+      {
+        question: 'Free Cash Flow is calculated as:',
+        options: [
+          'Net Income + Depreciation',
+          'EBITDA − Tax − Interest',
+          'Operating Cash Flow − Capital Expenditure',
+          'Revenue − OPEX − Capex'
+        ],
+        correct: 2
+      }
+    ]
+  },
+
+  // ─────────────────────────────────────────
+  // WEEK 11 — Financial Storytelling & CFO Communication
+  // ─────────────────────────────────────────
+  {
+    week: 11,
+    title: 'Financial Storytelling &amp; CFO Communication',
+    desc: 'The pyramid principle, presenting a miss, partnering with the business',
+    content: `
+      <div style="background:linear-gradient(135deg,rgba(46,204,138,0.08) 0%,var(--bg-secondary) 100%);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:2rem;border-left:4px solid var(--success)">
+        <div style="font-size:13px;font-weight:600;color:var(--success);margin-bottom:4px">Week 11 — From analyst to trusted advisor</div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.6">Technical skills get you the job. Communication skills determine how far you go. The CFOs who make it to the top are the ones who can take a complex financial picture and distil it into a clear story that drives decisions. This week is about that skill.</div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 1 — FP&amp;A as a business partner</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:14px;font-weight:500;margin-bottom:12px">The evolution from reporter to partner — and why it matters.</div>
+          <div class="compare-grid" style="margin-bottom:12px">
+            <div style="padding:14px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:8px;letter-spacing:.4px">FP&amp;A AS REPORTER</div>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--border-strong)">Produces reports after events happen</div>
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--border-strong)">Answers questions when asked</div>
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--border-strong)">Focuses on accuracy of numbers</div>
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--border-strong)">Seen as a cost centre</div>
+              </div>
+            </div>
+            <div style="padding:14px;background:var(--bg-secondary);border-radius:var(--radius-sm);border:1px solid var(--primary)">
+              <div style="font-size:11px;font-weight:600;color:var(--primary);margin-bottom:8px;letter-spacing:.4px">FP&amp;A AS PARTNER</div>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--primary)">Anticipates problems before they happen</div>
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--primary)">Proactively surfaces insights</div>
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--primary)">Translates numbers into decisions</div>
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--primary)">Seen as a strategic advisor</div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted);line-height:1.6">
+            The CFO title doesn't go to the best modeller. It goes to the person business leaders call when they need to think through a decision. Building that trust requires being right, being clear, and being proactive — consistently.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 2 — The pyramid principle for finance</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px">Barbara Minto's pyramid principle: lead with the answer, then support it. Most finance professionals do the opposite — they build up to the conclusion. CFOs don't have time for that.</div>
+          <div style="display:flex;flex-direction:column;gap:2px;margin-bottom:14px">
+            <div style="padding:14px;background:var(--primary-light);border-radius:var(--radius-sm);border:1px solid var(--primary);text-align:center">
+              <div style="font-size:13px;font-weight:600;color:var(--primary);margin-bottom:4px">The recommendation (lead with this)</div>
+              <div style="font-size:12px;color:var(--text-muted)">"We should defer the Rig 4 acquisition to Q3 and draw on the revolver to cover the Petronas payment shortfall."</div>
+            </div>
+            <div style="text-align:center;color:var(--text-muted);font-size:16px;padding:4px">↓</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+              <div style="padding:10px;background:var(--bg-secondary);border-radius:var(--radius-sm);text-align:center">
+                <div style="font-size:11px;font-weight:600;color:var(--violet);margin-bottom:4px">Reason 1</div>
+                <div style="font-size:11px;color:var(--text-muted)">FCF $6M below budget; liquidity buffer shrinking</div>
+              </div>
+              <div style="padding:10px;background:var(--bg-secondary);border-radius:var(--radius-sm);text-align:center">
+                <div style="font-size:11px;font-weight:600;color:var(--violet);margin-bottom:4px">Reason 2</div>
+                <div style="font-size:11px;color:var(--text-muted)">Petronas payment deferred $14M to Q2</div>
+              </div>
+              <div style="padding:10px;background:var(--bg-secondary);border-radius:var(--radius-sm);text-align:center">
+                <div style="font-size:11px;font-weight:600;color:var(--violet);margin-bottom:4px">Reason 3</div>
+                <div style="font-size:11px;color:var(--text-muted)">Revolver available at 6.5%; cost of delay is low</div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted);line-height:1.6">
+            The structure works because the CFO can stop after the first sentence and already understand the message. The reasons exist to defend the recommendation, not to build to it. This is how every financial communication should be structured.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 3 — Presenting a miss without losing credibility</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px">You will miss the budget. Every FP&amp;A professional does, every year. How you communicate the miss determines whether you grow or stall.</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="padding:12px;background:var(--danger-light);border-radius:var(--radius-sm);border:1px solid var(--danger)">
+              <div style="font-size:11px;font-weight:600;color:var(--danger);margin-bottom:6px">DO NOT DO THIS</div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.6;font-style:italic">"Revenue came in at $92M vs our $100M budget. The shortfall was due to challenging market conditions and some timing differences that we expect to reverse in subsequent periods."</div>
+              <div style="font-size:11px;color:var(--danger);margin-top:6px">Vague causes. Passive voice. No accountability. No action. Zero information content.</div>
+            </div>
+            <div style="padding:12px;background:var(--success-light);border-radius:var(--radius-sm);border:1px solid var(--success)">
+              <div style="font-size:11px;font-weight:600;color:var(--success);margin-bottom:6px">DO THIS</div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.6;font-style:italic">"Revenue missed by $8M. Two specific causes: Rig 3 offline 45 days for unplanned maintenance (−$3.8M; maintenance now complete, rig back operating) and Shell deferred a deepwater contract to Q2 (−$4.2M; contract is signed, revenue will land). Full-year forecast is unchanged at $368M."</div>
+              <div style="font-size:11px;color:var(--success);margin-top:6px">Specific. Quantified. Shows you understand the business. Provides a forward view. Maintains credibility.</div>
+            </div>
+          </div>
+          <div style="margin-top:10px;padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted);line-height:1.6">
+            <span class="hl">The formula: What happened ($X) → Why (specific root cause) → What it means for the year → What we are doing.</span> Four elements. Always in this order.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 4 — The CFO one-pager: your signature deliverable</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:14px;font-weight:500;margin-bottom:2px">The monthly CFO update — one page, maximum impact</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px">Every high-performing FP&amp;A team has a version of this. It replaces 40-slide decks with one page that answers: how are we doing, why, and what's ahead?</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+            <div style="padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="font-size:11px;font-weight:600;color:var(--primary);margin-bottom:6px">TOP THIRD: THE VERDICT</div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.5">3–4 headline metrics with RAG status. Month vs budget vs PY. The reader knows the health of the business in 10 seconds.</div>
+            </div>
+            <div style="padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="font-size:11px;font-weight:600;color:var(--violet);margin-bottom:6px">MIDDLE THIRD: THE STORY</div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.5">3–5 bullet points. Top variance drivers. Cause + amount + forward implication. No more than 150 words total.</div>
+            </div>
+            <div style="padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="font-size:11px;font-weight:600;color:var(--warning);margin-bottom:6px">BOTTOM THIRD: THE FORECAST</div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.5">Updated FY LE vs original budget. Single bar chart. Where will we land and why does it differ from plan?</div>
+            </div>
+            <div style="padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="font-size:11px;font-weight:600;color:var(--success);margin-bottom:6px">FOOTER: WATCH LIST</div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.5">2–3 forward risks or opportunities. What FP&amp;A is watching. Shows you're thinking ahead, not just reporting the past.</div>
+            </div>
+          </div>
+          <div style="padding:10px 14px;background:var(--primary-light);border-radius:var(--radius-sm);font-size:12px;color:var(--primary);font-weight:500;line-height:1.6">
+            Master this format and you will be asked to present it directly to the board within 18 months. That is how CFO careers are made.
+          </div>
+        </div>
+      </div>`,
+    quiz: [
+      {
+        question: 'Using the pyramid principle, which opening line is correct for a CFO presentation?',
+        options: [
+          '"I\'d like to walk you through the monthly financials, starting with revenue, then costs, and we\'ll get to the key insight at the end."',
+          '"Revenue missed by $8M driven by two specific causes — here is what happened and what it means for the year."',
+          '"There were several factors this month that contributed to a mixed performance across the P&L."',
+          '"The budget vs actual analysis reveals some interesting dynamics that warrant careful consideration."'
+        ],
+        correct: 1
+      },
+      {
+        question: 'A business unit leader asks FP&A: "Can we afford to hire 5 more engineers this quarter?" What is the FP&A business partner response?',
+        options: [
+          '"That\'s a decision for HR and the CEO, not FP&A."',
+          '"I\'ll check the headcount budget and get back to you."',
+          '"Based on current forecast, we have $400K of headcount budget remaining. 5 engineers at average $80K fully-loaded cost = $400K. It fits if Q3 revenue holds. Here\'s the sensitivity if revenue slips 5%."',
+          '"The headcount budget is already 90% utilised so we cannot accommodate additional headcount."'
+        ],
+        correct: 2
+      },
+      {
+        question: 'What is the critical difference between strong and weak variance commentary?',
+        options: [
+          'Strong commentary is longer and more detailed',
+          'Strong commentary identifies specific root causes with dollar amounts and a forward implication; weak commentary restates the numbers',
+          'Strong commentary uses financial jargon to demonstrate expertise',
+          'Strong commentary avoids assigning blame to specific events or people'
+        ],
+        correct: 1
+      }
+    ]
+  },
+
+  // ─────────────────────────────────────────
+  // WEEK 12 — AI in FP&A + Capstone
+  // ─────────────────────────────────────────
+  {
+    week: 12,
+    title: 'AI in FP&amp;A + Your CFO Roadmap',
+    desc: 'AI tools transforming finance, what requires human judgment, your complete toolkit',
+    content: `
+      <div style="background:linear-gradient(135deg,rgba(155,127,232,0.08) 0%,var(--bg-secondary) 100%);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:2rem;border-left:4px solid var(--violet)">
+        <div style="font-size:13px;font-weight:600;color:var(--violet);margin-bottom:4px">Week 12 — The final week. And the beginning.</div>
+        <div style="font-size:13px;color:var(--text-muted);line-height:1.6">AI is not replacing FP&amp;A — it's eliminating the work that never should have taken FP&amp;A's time in the first place. The CFOs who thrive in 2025 and beyond are the ones who understand both the numbers and the tools. You've spent 12 weeks building the former. Now let's add the latter.</div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 1 — AI tools reshaping FP&amp;A in 2025–2026</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px">These are the tools actually being used in finance teams today — not hypothetical future tech.</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <div style="font-size:12px;font-weight:600;color:var(--text)">Microsoft Copilot in Excel / Power BI</div>
+                <span style="padding:2px 8px;background:var(--success-light);color:var(--success);border-radius:10px;font-size:10px;font-weight:600">Live now</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.5">Natural language queries over your financial data. "What drove the EBITDA variance last quarter?" — answered in seconds from your actual dataset. Automatically generates charts, pivot tables, and trend analysis.</div>
+            </div>
+            <div style="padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <div style="font-size:12px;font-weight:600;color:var(--text)">AI-assisted variance commentary</div>
+                <span style="padding:2px 8px;background:var(--success-light);color:var(--success);border-radius:10px;font-size:10px;font-weight:600">Live now</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.5">Tools like Claude, ChatGPT, and Gemini can draft the first version of BVA commentary from your variance data. FP&amp;A reviews, challenges, and refines — but the blank page problem is gone.</div>
+            </div>
+            <div style="padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <div style="font-size:12px;font-weight:600;color:var(--text)">ML-driven forecasting (Anaplan, Pigment, Mosaic)</div>
+                <span style="padding:2px 8px;background:var(--primary-light);color:var(--primary);border-radius:10px;font-size:10px;font-weight:600">Scaling fast</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.5">Modern FP&amp;A platforms use machine learning to identify patterns in your historical data and generate statistically grounded revenue forecasts. Particularly powerful for high-volume, SKU-level forecasting.</div>
+            </div>
+            <div style="padding:12px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <div style="font-size:12px;font-weight:600;color:var(--text)">Automated close and reconciliation</div>
+                <span style="padding:2px 8px;background:var(--warning-light);color:var(--warning);border-radius:10px;font-size:10px;font-weight:600">Emerging</span>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);line-height:1.5">AI agents that run journal entry matching, flag anomalies in the GL, and auto-reconcile intercompany balances. Early adopters are cutting close timelines from 7 days to 3.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 2 — What AI cannot do (and why your skills matter more)</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px">AI eliminates the mechanical work. It cannot replace the judgment. Here is exactly where the line falls.</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div style="padding:14px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="font-size:11px;font-weight:600;color:var(--success);margin-bottom:8px;letter-spacing:.4px">AI DOES THIS WELL</div>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--success)">Data aggregation and cleaning</div>
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--success)">Pattern recognition in large datasets</div>
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--success)">First-draft narrative generation</div>
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--success)">Routine variance flagging</div>
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--success)">Model checking and formula auditing</div>
+              </div>
+            </div>
+            <div style="padding:14px;background:var(--bg-secondary);border-radius:var(--radius-sm);border:1px solid var(--primary)">
+              <div style="font-size:11px;font-weight:600;color:var(--primary);margin-bottom:8px;letter-spacing:.4px">HUMANS DO THIS — CFOs OWN THIS</div>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--primary)">Deciding which assumptions to challenge</div>
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--primary)">Understanding business context behind numbers</div>
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--primary)">Building trust with business leaders</div>
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--primary)">Making capital allocation recommendations</div>
+                <div style="font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--primary)">Presenting to the board with conviction</div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:12px;padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm);font-size:12px;color:var(--text-muted);line-height:1.6">
+            The analysts who fear AI are the ones doing only mechanical work. The CFOs who embrace AI are the ones who use it to do 10× more of the work that actually matters.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 3 — Your complete FP&amp;A toolkit</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:14px">Twelve weeks. Here is exactly what you now know — and where it takes you.</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:grid;grid-template-columns:24px 100px 1fr;gap:10px;align-items:center;padding:8px 10px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="width:8px;height:8px;background:var(--success);border-radius:50%;margin:0 auto"></div>
+              <div style="font-size:11px;font-weight:600;color:var(--success)">Weeks 1–2</div>
+              <div style="font-size:12px;color:var(--text-muted)">FP&amp;A vocabulary + 3-statement model. You speak the language and understand the financial architecture.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:24px 100px 1fr;gap:10px;align-items:center;padding:8px 10px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="width:8px;height:8px;background:var(--success);border-radius:50%;margin:0 auto"></div>
+              <div style="font-size:11px;font-weight:600;color:var(--success)">Weeks 3–4</div>
+              <div style="font-size:12px;color:var(--text-muted)">Budgeting + revenue forecasting. You can build a plan and defend the assumptions behind it.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:24px 100px 1fr;gap:10px;align-items:center;padding:8px 10px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="width:8px;height:8px;background:var(--success);border-radius:50%;margin:0 auto"></div>
+              <div style="font-size:11px;font-weight:600;color:var(--success)">Weeks 5–6</div>
+              <div style="font-size:12px;color:var(--text-muted)">Cost forecasting + variance analysis. You can track performance and explain every line of deviation to a CFO.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:24px 100px 1fr;gap:10px;align-items:center;padding:8px 10px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="width:8px;height:8px;background:var(--success);border-radius:50%;margin:0 auto"></div>
+              <div style="font-size:11px;font-weight:600;color:var(--success)">Weeks 7–8</div>
+              <div style="font-size:12px;color:var(--text-muted)">Working capital + capital budgeting. You understand cash and can evaluate investment decisions end to end.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:24px 100px 1fr;gap:10px;align-items:center;padding:8px 10px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="width:8px;height:8px;background:var(--success);border-radius:50%;margin:0 auto"></div>
+              <div style="font-size:11px;font-weight:600;color:var(--success)">Weeks 9–10</div>
+              <div style="font-size:12px;color:var(--text-muted)">Scenario planning + dashboards. You can lead the business through uncertainty and translate complexity into clarity.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:24px 100px 1fr;gap:10px;align-items:center;padding:8px 10px;background:var(--bg-secondary);border-radius:var(--radius-sm)">
+              <div style="width:8px;height:8px;background:var(--success);border-radius:50%;margin:0 auto"></div>
+              <div style="font-size:11px;font-weight:600;color:var(--success)">Weeks 11–12</div>
+              <div style="font-size:12px;color:var(--text-muted)">Financial storytelling + AI. You can communicate, advise, and leverage the tools that are reshaping the profession.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem">
+        <p class="sec-label">Section 4 — Your CFO readiness checklist</p>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem">
+          <div style="font-size:14px;font-weight:500;margin-bottom:2px">What separates a strong FP&amp;A professional from a CFO-ready one</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px">Use this as your ongoing development guide. Not a checklist to complete — a direction to move in.</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+            <div style="padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm);display:flex;gap:12px;align-items:flex-start">
+              <div style="font-size:16px;color:var(--primary);flex-shrink:0;margin-top:1px">→</div>
+              <div><div style="font-size:12px;font-weight:500;margin-bottom:2px">You understand the full P&amp;L, BS, and CF for your company — not just your area</div><div style="font-size:12px;color:var(--text-muted)">CFOs are responsible for the whole picture. Start building a view beyond your direct scope.</div></div>
+            </div>
+            <div style="padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm);display:flex;gap:12px;align-items:flex-start">
+              <div style="font-size:16px;color:var(--primary);flex-shrink:0;margin-top:1px">→</div>
+              <div><div style="font-size:12px;font-weight:500;margin-bottom:2px">You have presented financial results directly to a senior leader</div><div style="font-size:12px;color:var(--text-muted)">Find the opportunity. Volunteer to present. Your ideas need an audience to have impact.</div></div>
+            </div>
+            <div style="padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm);display:flex;gap:12px;align-items:flex-start">
+              <div style="font-size:16px;color:var(--primary);flex-shrink:0;margin-top:1px">→</div>
+              <div><div style="font-size:12px;font-weight:500;margin-bottom:2px">You have influenced a business decision using financial analysis</div><div style="font-size:12px;color:var(--text-muted)">Not reported numbers — changed a decision. That is the CFO impact. Document when it happens.</div></div>
+            </div>
+            <div style="padding:10px 14px;background:var(--bg-secondary);border-radius:var(--radius-sm);display:flex;gap:12px;align-items:flex-start">
+              <div style="font-size:16px;color:var(--primary);flex-shrink:0;margin-top:1px">→</div>
+              <div><div style="font-size:12px;font-weight:500;margin-bottom:2px">You use AI as a thinking partner, not just a tool</div><div style="font-size:12px;color:var(--text-muted)">Challenge your assumptions with AI. Use it to stress-test forecasts, generate alternative scenarios, draft communications. The CFOs of 2030 will be exceptional at this.</div></div>
+            </div>
+          </div>
+          <div style="padding:16px 20px;background:var(--primary-light);border-radius:var(--radius);border:1px solid var(--primary)">
+            <div style="font-size:15px;font-weight:600;color:var(--primary);margin-bottom:6px">Curriculum complete.</div>
+            <div style="font-size:13px;color:var(--text-muted);line-height:1.7">You have covered the full FP&amp;A professional knowledge framework — the same content that underpins AFP FPAC certification and Wharton's finance programmes. The knowledge is yours. What you do with it is the only thing that remains. Go build something worth presenting to a board.</div>
+          </div>
+        </div>
+      </div>`,
+    quiz: [
+      {
+        question: 'Which of these tasks is AI best suited to replace in FP&A?',
+        options: [
+          'Deciding whether to approve a $40M capital investment',
+          'Building trust with a business unit leader who questions the forecast',
+          'Aggregating data from multiple sources and generating a first-draft variance commentary',
+          'Presenting Q3 results to the board with conviction'
+        ],
+        correct: 2
+      },
+      {
+        question: 'A company\'s ROIC is consistently 14% and its WACC is 10%. AI tools are reducing the time FP&A spends on manual reporting by 60%. What should FP&A do with the freed capacity?',
+        options: [
+          'Produce more reports to fill the time and demonstrate activity',
+          'Reduce the size of the FP&A team since fewer hours are needed',
+          'Redirect capacity toward deeper business partnering, scenario analysis, and strategic input',
+          'Implement additional AI tools to further reduce reporting time'
+        ],
+        correct: 2
+      },
+      {
+        question: 'You have completed 12 weeks of FP&A training. What is the most important next step?',
+        options: [
+          'Study for AFP FPAC certification immediately',
+          'Apply the frameworks in your current role — influence a real decision using financial analysis',
+          'Start the curriculum again from Week 1 to reinforce the learning',
+          'Build a financial model in Excel to demonstrate technical proficiency'
+        ],
+        correct: 1
+      }
+    ]
+  }
+];
+
 ];
