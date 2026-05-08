@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LearnFP&A — Lesson</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Layout ── */
+    .lesson-header { background:var(--bg); border-bottom:1px solid var(--border); padding:12px 0; position:sticky; top:0; z-index:10; }
+    .lesson-header-inner { display:flex; align-items:center; gap:12px; }
+    .lesson-progress-wrap { flex:1; min-width:0; }
+    .lesson-body { max-width:760px; margin:0 auto; padding:36px 20px 120px; }
+    .lesson-title { font-size:26px; font-weight:600; margin-bottom:4px; }
+    .lesson-meta  { font-size:13px; color:var(--text-muted); margin-bottom:36px; }
+
+    /* ── Content components ── */
+    .sec-label { font-size:11px; font-weight:500; color:var(--text-muted); letter-spacing:.6px; text-transform:uppercase; margin:0 0 12px; }
+    .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px; }
+    @media(max-width:520px){ .compare-grid{grid-template-columns:1fr;} }
+    .terms-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(155px,1fr)); gap:10px; }
+    .term-card  { background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); padding:.9rem; }
+    .term-color { font-size:10px; font-weight:500; letter-spacing:.5px; margin-bottom:4px; }
+    .term-title { font-size:13px; font-weight:500; color:var(--text); margin-bottom:5px; }
+    .term-def   { font-size:12px; color:var(--text-muted); line-height:1.5; }
+    .cal-row  { display:flex; border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; }
+    .cal-cell { flex:1; padding:10px 6px; background:var(--bg-secondary); border-right:1px solid var(--border); text-align:center; }
+    .cal-cell:last-child { border-right:none; }
+    @media(max-width:560px){ .cal-row{flex-direction:column;} .cal-cell{border-right:none;border-bottom:1px solid var(--border);} .cal-cell:last-child{border-bottom:none;} }
+    .scenario-row { display:grid; grid-template-columns:72px 1fr; gap:10px; align-items:start; padding:10px 0; border-bottom:1px solid var(--border); }
+    .scenario-row:last-child { border-bottom:none; }
+    .hl { color:var(--text); font-weight:500; }
+
+    /* ── Quiz ── */
+    .quiz-item   { background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px; margin-bottom:10px; }
+    .quiz-q      { font-size:13px; font-weight:500; margin-bottom:12px; line-height:1.5; }
+    .quiz-opts   { display:flex; flex-direction:column; gap:6px; }
+    .quiz-opt    { display:flex; align-items:center; gap:10px; padding:8px 12px; border:1px solid var(--border); border-radius:var(--radius-xs); cursor:pointer; font-size:13px; transition:background .1s; }
+    .quiz-opt:hover    { background:var(--bg-tertiary); }
+    .quiz-opt.selected { border-color:var(--primary); background:var(--primary-light); }
+    .quiz-opt.correct  { border-color:var(--success); background:var(--success-light); color:var(--success); }
+    .quiz-opt.wrong    { border-color:var(--danger); background:var(--danger-light); color:var(--danger); }
+    .quiz-opt-label    { width:20px; height:20px; border-radius:50%; border:1.5px solid var(--border-strong); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:600; flex-shrink:0; }
+
+    /* ── Complete bar ── */
+    .complete-bar { background:var(--bg); border-top:1px solid var(--border); padding:14px 0; position:fixed; bottom:0; left:0; right:0; z-index:10; }
+    .complete-bar-inner { display:flex; align-items:center; justify-content:space-between; max-width:760px; margin:0 auto; padding:0 20px; }
+
+    /* ── Coming soon ── */
+    .coming-soon { text-align:center; padding:60px 20px; }
+
+    /* ── Engagement: section gating ── */
+    .lesson-section { transition: opacity 0.4s ease; }
+    .lesson-section.locked {
+      opacity: 0.35;
+      pointer-events: none;
+      user-select: none;
+      filter: blur(1px);
+    }
+    .lesson-section.revealed {
+      animation: revealSection 0.45s ease forwards;
+    }
+    @keyframes revealSection {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Section CTA footer ── */
+    .section-footer {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .section-done-tag {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--success);
+      font-weight: 500;
+    }
+    .section-done-tag.visible { display: flex; }
+    .section-done-dot {
+      width: 8px; height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── Pill: section progress ── */
+    .progress-pill {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: var(--bg);
+      border: 1px solid var(--border-strong);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: var(--text-muted);
+      z-index: 20;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    .progress-pill .pill-accent { color: var(--text); font-weight: 600; }
+    @media(max-width:520px) { .progress-pill { bottom: 80px; right: 12px; } }
+
+    /* ── Quiz intro banner ── */
+    .quiz-intro {
+      padding: 12px 16px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .quiz-intro strong { color: var(--text); }
+
+    /* ── Journey callout ── */
+    .journey-callout {
+      display: none;
+      margin-top: 20px;
+      padding: 18px 20px;
+      background: var(--bg);
+      border: 1px solid var(--primary);
+      border-radius: var(--radius);
+    }
+    .journey-callout.visible { display: block; }
+    .journey-pct {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 6px;
+      font-variant-numeric: tabular-nums;
+    }
+    .journey-bar-wrap { height: 4px; background: var(--bg-tertiary); border-radius: 2px; margin: 10px 0 12px; overflow: hidden; }
+    .journey-bar-fill { height: 4px; background: var(--primary); border-radius: 2px; transition: width 1.2s cubic-bezier(.16,1,.3,1); }
+  </style>
+</head>
+<body>
+
+  <header class="lesson-header">
+    <div class="container lesson-header-inner">
+      <a href="dashboard.html" class="btn btn-ghost btn-sm" style="flex-shrink:0">← Back</a>
+      <div class="lesson-progress-wrap">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-bottom:4px">
+          <span id="header-week-label">Week —</span>
+          <span id="header-status"></span>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="header-progress" style="width:0%"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-shrink:0">
+        <span id="nav-prev"></span>
+        <span id="nav-next"></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="lesson-body" id="lesson-body"></main>
+
+  <div class="complete-bar" id="complete-bar">
+    <div class="complete-bar-inner">
+      <span id="quiz-score-display" style="font-size:13px;color:var(--text-muted)"></span>
+      <button id="complete-btn" class="btn btn-primary" onclick="markComplete()">Mark week as complete ✓</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="lessons-data.js"></script>
+  <script>
+    const params  = new URLSearchParams(window.location.search);
+    const week    = parseInt(params.get('week')) || 1;
+    const LESSON  = window.LESSONS_DATA.find(l => l.week === week);
+    let userId       = null;
+    let quizAnswers  = {};
+    let quizScore    = 0;
+    let totalSections  = 0;
+    let readSections   = 0;
+    let quizSubmitted  = false;
+
+    // Encouraging lines shown when a section is completed (cycles by index)
+    const SECTION_PRAISE = [
+      'Foundation laid. On to the next piece.',
+      'Depth building. Keep the momentum.',
+      'Three sections down — the picture is forming.',
+      'You\'ve read everything. Time to test it.',
+      'Another section locked in.',
+      'Good progress — keep going.',
+    ];
+
+    // ── DB helper: fire-and-forget ──
+    function dbSave(promise) {
+      Promise.race([
+        promise,
+        new Promise((_, rej) => setTimeout(() => rej('timeout'), 8000))
+      ]).catch(() => {});
+    }
+
+    // ── Auth ──
+    async function init() {
+      let session;
+      try {
+        const { data } = await Promise.race([
+          sb.auth.getSession(),
+          new Promise((_, rej) => setTimeout(() => rej('timeout'), 5000))
+        ]);
+        session = data?.session;
+      } catch (e) { session = null; }
+
+      if (!session) { window.location.href = 'index.html'; return; }
+      userId = session.user.id;
+
+      document.getElementById('header-week-label').textContent = `Week ${week} of 12`;
+      document.title = `LearnFP&A — Week ${week}`;
+      if (week > 1)  document.getElementById('nav-prev').innerHTML = `<a href="lesson.html?week=${week-1}" class="btn btn-ghost btn-sm">← W${week-1}</a>`;
+      if (week < 12) document.getElementById('nav-next').innerHTML = `<a href="lesson.html?week=${week+1}" class="btn btn-ghost btn-sm">W${week+1} →</a>`;
+
+      renderLesson();
+
+      // Load DB progress in background
+      Promise.race([
+        sb.from('lesson_progress').select('*').eq('user_id', userId).eq('week_number', week).maybeSingle(),
+        new Promise((_, rej) => setTimeout(() => rej('timeout'), 6000))
+      ]).then(({ data: prog }) => {
+        if (prog && prog.completed_at) {
+          quizScore = prog.quiz_score || 0;
+          setCompletedState();
+        }
+      }).catch(() => {});
+
+      dbSave(
+        sb.from('lesson_progress').upsert(
+          { user_id: userId, week_number: week, last_visited_at: new Date().toISOString() },
+          { onConflict: 'user_id,week_number', ignoreDuplicates: false }
+        )
+      );
+    }
+
+    // ── Render ──
+    function renderLesson() {
+      const body = document.getElementById('lesson-body');
+      if (!LESSON || !LESSON.content) {
+        body.innerHTML = `<div class="coming-soon">
+          <div style="width:48px;height:48px;border-radius:var(--radius-sm);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:18px;color:var(--text-muted)">—</div>
+          <h2 style="font-size:20px;font-weight:600;margin-bottom:8px">Week ${week} — ${LESSON ? LESSON.title : 'Coming soon'}</h2>
+          <p style="color:var(--text-muted)">This lesson is being built. Check back next sprint!</p>
+          <a href="dashboard.html" class="btn btn-primary" style="margin-top:24px;display:inline-flex">← Back to dashboard</a>
+        </div>`;
+        document.getElementById('complete-bar').style.display = 'none';
+        return;
+      }
+      body.innerHTML = `
+        <div class="lesson-title">${LESSON.title}</div>
+        <div class="lesson-meta">Week ${LESSON.week} of 12 &nbsp;·&nbsp; ~60 min &nbsp;·&nbsp; AFP FPAC aligned</div>
+        ${LESSON.content}
+        ${renderQuiz(LESSON.quiz)}`;
+
+      applyEngagement();
+    }
+
+    function renderQuiz(qs) {
+      if (!qs || !qs.length) return '';
+      const L = ['A','B','C','D'];
+      return `<div id="quiz-wrapper" style="margin-top:2rem;display:none">
+        <p class="sec-label">Check yourself</p>
+        <div class="quiz-intro"><strong>All sections complete.</strong> Three questions to lock in what you just learned — no pressure, you can re-read above anytime.</div>
+        ${qs.map((q,i) => `<div class="quiz-item">
+          <div class="quiz-q">Q${i+1} — ${q.question}</div>
+          <div class="quiz-opts">${q.options.map((o,j) =>
+            `<div class="quiz-opt" id="q${i}o${j}" onclick="selectAnswer(${i},${j},${q.correct})">
+              <span class="quiz-opt-label">${L[j]}</span>${o}
+            </div>`).join('')}</div>
+        </div>`).join('')}
+        <button class="btn btn-primary" id="quiz-submit" onclick="submitQuiz()" style="margin-top:4px">Check answers</button>
+        <div class="journey-callout" id="journey-callout">
+          <div class="journey-pct" id="journey-pct">0%</div>
+          <div style="font-size:11px;font-weight:500;color:var(--text-muted);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px">FP&amp;A knowledge framework</div>
+          <div class="journey-bar-wrap"><div class="journey-bar-fill" id="journey-bar" style="width:0%"></div></div>
+          <div style="font-size:13px;color:var(--text-muted);line-height:1.6" id="journey-msg"></div>
+        </div>
+      </div>`;
+    }
+
+    // ── Engagement system ──
+    function applyEngagement() {
+      const body = document.getElementById('lesson-body');
+      if (!LESSON || !LESSON.content) return;
+
+      // Find all section labels (exclude the quiz "Check yourself")
+      const allLabels = Array.from(body.querySelectorAll('p.sec-label'));
+      const lessonLabels = allLabels.filter(l => !l.textContent.includes('Check yourself'));
+
+      totalSections = lessonLabels.length;
+      if (totalSections === 0) {
+        // No sections — just enable complete button
+        document.getElementById('complete-btn').disabled = false;
+        return;
+      }
+
+      lessonLabels.forEach((label, i) => {
+        const section = label.parentElement;
+        section.classList.add('lesson-section');
+        section.id = `lesson-sec-${i}`;
+
+        // Build section footer
+        const isLast = i === totalSections - 1;
+        const footer = document.createElement('div');
+        footer.className = 'section-footer';
+        footer.id = `sec-footer-${i}`;
+        footer.innerHTML = `
+          <div class="section-done-tag" id="sec-done-${i}">
+            <div class="section-done-dot"></div>
+            <span>${SECTION_PRAISE[i] || SECTION_PRAISE[SECTION_PRAISE.length - 1]}</span>
+          </div>
+          <button class="btn btn-primary btn-sm" id="sec-btn-${i}" onclick="markSectionRead(${i})">
+            ${isLast ? 'Take the quiz →' : 'Continue to section ' + (i + 2) + ' →'}
+          </button>`;
+        section.appendChild(footer);
+
+        // Lock all sections after the first
+        if (i > 0) {
+          section.classList.add('locked');
+        }
+      });
+
+      // Disable complete button until quiz done
+      document.getElementById('complete-btn').disabled = true;
+
+      // Create floating progress pill
+      const pill = document.createElement('div');
+      pill.className = 'progress-pill';
+      pill.id = 'progress-pill';
+      document.body.appendChild(pill);
+
+      updatePill();
+      updateHeaderProgress();
+    }
+
+    function markSectionRead(i) {
+      const btn = document.getElementById(`sec-btn-${i}`);
+      if (btn) btn.style.display = 'none';
+      const done = document.getElementById(`sec-done-${i}`);
+      if (done) done.classList.add('visible');
+
+      readSections++;
+      updatePill();
+      updateHeaderProgress();
+
+      const next = document.getElementById(`lesson-sec-${i + 1}`);
+      if (next) {
+        next.classList.remove('locked');
+        next.classList.add('revealed');
+        setTimeout(() => {
+          next.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      } else {
+        // Last section — reveal quiz
+        const quiz = document.getElementById('quiz-wrapper');
+        if (quiz) {
+          quiz.style.display = 'block';
+          quiz.classList.add('revealed');
+          setTimeout(() => quiz.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+        } else {
+          // No quiz — activate complete button
+          document.getElementById('complete-btn').disabled = false;
+        }
+      }
+    }
+
+    function updatePill() {
+      const pill = document.getElementById('progress-pill');
+      if (!pill || !totalSections) return;
+      const done = readSections;
+      const total = totalSections;
+      pill.innerHTML = done === total
+        ? `<span class="pill-accent">All sections read</span> — quiz unlocked`
+        : `Section <span class="pill-accent">${done + 1}</span> of ${total}`;
+    }
+
+    function updateHeaderProgress() {
+      // Progress bar shows section progress within the lesson
+      const pct = totalSections > 0 ? (readSections / totalSections) * 100 : (week / 12) * 100;
+      document.getElementById('header-progress').style.width = pct + '%';
+      if (totalSections > 0 && readSections < totalSections) {
+        document.getElementById('header-status').textContent =
+          `${readSections} of ${totalSections} sections`;
+      }
+    }
+
+    // ── Quiz ──
+    function selectAnswer(qi, oi) {
+      if (quizAnswers[qi] !== undefined) return;
+      document.querySelectorAll(`[id^="q${qi}o"]`).forEach(el => el.classList.remove('selected'));
+      document.getElementById(`q${qi}o${oi}`)?.classList.add('selected');
+      quizAnswers[qi] = oi;
+    }
+
+    // Journey messages per week (fallbacks for weeks not listed)
+    const JOURNEY_MSGS = {
+      1:  'You now speak the language of every FP&A team. Budget, forecast, variance, LE — these are your daily tools.',
+      2:  'You understand how the three financial statements connect. Most analysts take months to see this clearly.',
+      3:  'You can navigate a full budget cycle. That alone puts you ahead of most finance professionals who have never run one.',
+      4:  'Revenue forecasting is the core of FP&A. You now know how to build it, challenge it, and defend it.',
+      5:  'Headcount and cost forecasting — the two things CFOs ask about most. You have the framework.',
+      6:  'Variance analysis is the language CFOs speak every month. You can now produce it and present it.',
+      7:  'Cash flow mastery. The most critical skill for a CFO — and you have the foundations.',
+      8:  'Capital allocation thinking. This is where finance becomes strategy.',
+      9:  'Rolling forecasts and scenario planning — the tools that separate reactive from proactive FP&A.',
+      10: 'KPIs and dashboards — translating numbers into decisions for leadership.',
+      11: 'Strategic finance and investor relations. The CFO interface.',
+      12: 'The complete framework. You have covered the full FP&A professional curriculum.',
+    };
+
+    function submitQuiz() {
+      quizScore = 0;
+      LESSON.quiz.forEach((q,i) => {
+        const sel = quizAnswers[i];
+        if (sel === undefined) return;
+        document.getElementById(`q${i}o${q.correct}`)?.classList.add('correct');
+        if (sel === q.correct) {
+          quizScore++;
+        } else {
+          const w = document.getElementById(`q${i}o${sel}`);
+          if (w) { w.classList.add('wrong'); w.classList.remove('selected'); }
+        }
+      });
+
+      const submitBtn = document.getElementById('quiz-submit');
+      submitBtn.textContent = `Score: ${quizScore}/${LESSON.quiz.length}`;
+      submitBtn.disabled = true;
+      quizSubmitted = true;
+
+      document.getElementById('quiz-score-display').textContent = `Quiz: ${quizScore}/3`;
+
+      // Unlock complete button
+      document.getElementById('complete-btn').disabled = false;
+
+      // Show journey callout
+      showJourneyCallout();
+
+      dbSave(sb.from('lesson_progress').upsert(
+        { user_id: userId, week_number: week, quiz_score: quizScore, last_visited_at: new Date().toISOString() },
+        { onConflict: 'user_id,week_number' }
+      ));
+    }
+
+    function showJourneyCallout() {
+      const pct = Math.round((week / 12) * 100);
+      const callout = document.getElementById('journey-callout');
+      const pctEl   = document.getElementById('journey-pct');
+      const barEl   = document.getElementById('journey-bar');
+      const msgEl   = document.getElementById('journey-msg');
+      if (!callout) return;
+
+      pctEl.textContent = pct + '%';
+      msgEl.textContent = JOURNEY_MSGS[week] || `Week ${week} complete — ${pct}% of the full FP&A curriculum covered.`;
+
+      callout.classList.add('visible');
+
+      // Animate bar after a short delay so the transition fires
+      setTimeout(() => { barEl.style.width = pct + '%'; }, 80);
+
+      // Update header
+      document.getElementById('header-status').textContent = `Week ${week} — ${pct}% complete`;
+      document.getElementById('header-progress').style.width = pct + '%';
+
+      // Scroll to callout
+      setTimeout(() => callout.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 200);
+    }
+
+    // ── Mark complete ──
+    function setCompletedState() {
+      const btn = document.getElementById('complete-btn');
+      btn.textContent = '✓ Completed';
+      btn.disabled = true;
+      btn.style.background  = 'var(--success)';
+      btn.style.borderColor = 'var(--success)';
+      document.getElementById('header-status').textContent = 'Completed';
+      if (quizScore) document.getElementById('quiz-score-display').textContent = `Quiz: ${quizScore}/3`;
+      // Remove pill when already completed
+      const pill = document.getElementById('progress-pill');
+      if (pill) pill.style.opacity = '0';
+    }
+
+    async function markComplete() {
+      setCompletedState();
+      dbSave(sb.from('lesson_progress').upsert(
+        { user_id: userId, week_number: week, completed_at: new Date().toISOString(), quiz_score: quizScore, last_visited_at: new Date().toISOString() },
+        { onConflict: 'user_id,week_number' }
+      ));
+      setTimeout(() => { window.location.href = week < 12 ? `lesson.html?week=${week+1}` : 'dashboard.html'; }, 800);
+    }
+
+    init();
+  </script>
+</body>
+</html>

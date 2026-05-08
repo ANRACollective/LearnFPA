@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LearnFP&A — Login</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+    .login-wrap { width: 100%; max-width: 400px; }
+    .login-logo { text-align: center; margin-bottom: 32px; }
+    .login-logo h1 { font-size: 26px; font-weight: 700; color: var(--text); }
+    .login-logo p  { font-size: 14px; color: var(--text-muted); margin-top: 6px; }
+    .login-card    { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; }
+    .form-group    { margin-bottom: 16px; }
+    .form-label    { display: block; font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+    .alert         { border-radius: var(--radius-sm); padding: 14px 16px; font-size: 14px; margin-bottom: 16px; display: none; }
+    .alert-success { background: var(--success-light); border: 1px solid var(--success); color: var(--success); }
+    .alert-error   { background: var(--danger-light); border: 1px solid var(--danger); color: var(--danger); }
+    .footer-note   { text-align: center; font-size: 13px; color: var(--text-muted); margin-top: 24px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <div class="login-wrap">
+
+    <div class="login-logo">
+      <h1><span style="color:var(--primary)">Learn</span>FP&amp;A</h1>
+      <p>12 weeks to CFO-ready financial planning skills</p>
+    </div>
+
+    <div class="login-card">
+      <div id="form-wrap">
+        <div id="alert-error" class="alert alert-error"></div>
+        <div class="form-group">
+          <label class="form-label" for="email">Email address</label>
+          <input type="email" id="email" placeholder="you@company.com" autocomplete="email">
+        </div>
+        <button class="btn btn-primary" id="submit-btn" style="width:100%;justify-content:center" onclick="sendMagicLink()">
+          Send magic link
+        </button>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:12px;text-align:center">
+          No password needed — we'll email you a sign-in link.
+        </p>
+      </div>
+
+      <div id="alert-success" class="alert alert-success">
+        Check your inbox — we sent a link to <strong id="sent-to"></strong>
+      </div>
+    </div>
+
+    <p class="footer-note">
+      Built by <a href="https://linkedin.com/in/antonranil" target="_blank">ANRA</a><br>
+      Curriculum aligned with AFP FPAC · Wharton · CFI FMVA
+    </p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script>
+    // Redirect if already logged in
+    (async () => {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session) window.location.href = 'dashboard.html';
+    })();
+
+    // Handle magic link callback
+    sb.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session) window.location.href = 'dashboard.html';
+    });
+
+    async function sendMagicLink() {
+      const email  = document.getElementById('email').value.trim();
+      const errEl  = document.getElementById('alert-error');
+      const btn    = document.getElementById('submit-btn');
+
+      errEl.style.display = 'none';
+      if (!email) { errEl.textContent = 'Please enter your email.'; errEl.style.display = 'block'; return; }
+
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+
+      const timeout = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Request timed out — check your connection and try again.')), 10000)
+      );
+
+      let error;
+      try {
+        const result = await Promise.race([
+          sb.auth.signInWithOtp({
+            email,
+            options: { emailRedirectTo: window.location.origin + '/dashboard.html' }
+          }),
+          timeout
+        ]);
+        error = result.error;
+      } catch (e) {
+        error = e;
+      }
+
+      if (error) {
+        errEl.textContent = error.message;
+        errEl.style.display = 'block';
+        btn.textContent = 'Send magic link';
+        btn.disabled = false;
+      } else {
+        document.getElementById('form-wrap').style.display = 'none';
+        document.getElementById('sent-to').textContent = email;
+        document.getElementById('alert-success').style.display = 'block';
+      }
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Enter') sendMagicLink(); });
+  </script>
+</body>
+</html>
