@@ -1863,5 +1863,3 @@ window.LESSONS_DATA = [
     ]
   }
 ];
-
-];
