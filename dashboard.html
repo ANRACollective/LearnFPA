@@ -4,13 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LearnFP&A — Dashboard</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <header class="header">
     <div class="container header-inner">
-      <div class="logo"><span class="logo-dot"></span>LearnFP&amp;A</div>
+      <div class="logo">
+        <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+          <rect width="32" height="32" rx="7" fill="var(--primary)"/>
+          <line x1="4" y1="27" x2="28" y2="27" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+          <polyline points="4,22 9,16 14,19 20,9 27,5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="27" cy="5" r="2.5" fill="white"/>
+        </svg>
+        <span><span style="color:var(--primary)">Learn</span>FP&amp;A</span>
+      </div>
       <div class="header-right">
         <span id="user-email" style="display:none"></span>
         <button class="btn btn-ghost btn-sm" onclick="signOut()">Sign out</button>
