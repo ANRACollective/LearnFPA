@@ -409,7 +409,7 @@
 
     // ── Quiz ──
     function selectAnswer(qi, oi) {
-      if (quizAnswers[qi] !== undefined) return;
+      if (quizSubmitted) return;
       document.querySelectorAll(`[id^="q${qi}o"]`).forEach(el => el.classList.remove('selected'));
       document.getElementById(`q${qi}o${oi}`)?.classList.add('selected');
       quizAnswers[qi] = oi;
